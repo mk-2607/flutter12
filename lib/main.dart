@@ -44,6 +44,9 @@ class _MyFirestorePageState extends State<MyFirestorePage> {
   // 作成したドキュメント一覧
   List<DocumentSnapshot> documentList = [];
 
+  // 指定したドキュメントの情報
+  String orderDocumentInfo = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +96,25 @@ class _MyFirestorePageState extends State<MyFirestorePage> {
                 );
               }).toList(),
             ),
+            ElevatedButton(
+              child: Text('ドキュメントを指定して取得'),
+              onPressed: () async {
+                // コレクションIDとドキュメントIDを指定して取得
+                final document = await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc('id_abc')
+                    .collection('orders')
+                    .doc('id_123')
+                    .get();
+                // 取得したドキュメントの情報をUIに反映
+                setState(() {
+                  orderDocumentInfo =
+                  '${document['date']} ${document['price']}円';
+                });
+              },
+            ),
+            // ドキュメントの情報を表示
+            ListTile(title: Text(orderDocumentInfo)),
           ],
         ),
       ),
