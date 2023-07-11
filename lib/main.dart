@@ -115,6 +115,16 @@ class _MyFirestorePageState extends State<MyFirestorePage> {
             ),
             // ドキュメントの情報を表示
             ListTile(title: Text(orderDocumentInfo)),
+            ElevatedButton(
+              child: Text('ドキュメント更新'),
+              onPressed: () async {
+                // ドキュメント更新
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc('id_abc')
+                    .update({'age': 41});
+              },
+            ),
           ],
         ),
       ),
