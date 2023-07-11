@@ -40,6 +40,10 @@ class MyFirestorePage extends StatefulWidget {
 }
 
 class _MyFirestorePageState extends State<MyFirestorePage> {
+
+  // 作成したドキュメント一覧
+  List<DocumentSnapshot> documentList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +71,27 @@ class _MyFirestorePageState extends State<MyFirestorePage> {
                     .doc('id_123') // ドキュメントID << サブコレクション内のドキュメント
                     .set({'price': 600, 'date': '9/13'}); // データ
               },
+            ),
+            ElevatedButton(
+              child: Text('ドキュメント一覧取得'),
+              onPressed: () async {
+                // コレクション内のドキュメント一覧を取得
+                final snapshot =
+                await FirebaseFirestore.instance.collection('users').get();
+                // 取得したドキュメント一覧をUIに反映
+                setState(() {
+                  documentList = snapshot.docs;
+                });
+              },
+            ),
+            // コレクション内のドキュメント一覧を表示
+            Column(
+              children: documentList.map((document) {
+                return ListTile(
+                  title: Text('${document['name']}さん'),
+                  subtitle: Text('${document['age']}歳'),
+                );
+              }).toList(),
             ),
           ],
         ),
