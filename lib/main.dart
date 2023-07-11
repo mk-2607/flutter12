@@ -125,6 +125,18 @@ class _MyFirestorePageState extends State<MyFirestorePage> {
                     .update({'age': 41});
               },
             ),
+            ElevatedButton(
+              child: Text('ドキュメント削除'),
+              onPressed: () async {
+                // ドキュメント削除
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc('id_abc')
+                    .collection('orders')
+                    .doc('id_123')
+                    .delete();
+              },
+            ),
           ],
         ),
       ),
